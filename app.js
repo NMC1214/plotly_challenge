@@ -87,7 +87,16 @@ function init() {
         })
 
         var firstone = sampleids[0]
+        
+        var boxinfo = d3.select('#sample-metadata');
+
+        Object.keys(metadata).forEach(key => {
+            console.log(key, metadata[key]);
+            boxinfo.append("h6").text(`${key}: ${metadata[key]}`);
+        });
     })
+
+
     demobox(firstone);
     charts(firstone);
 }
