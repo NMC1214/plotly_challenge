@@ -28,6 +28,7 @@ function demobox(sample) {
 function charts(sample) {
     console.log(sample)
     d3.json("samples.json").then(data => {
+
         var samplesdata = data.samples;
         console.log(samplesdata);
 
