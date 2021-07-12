@@ -43,8 +43,8 @@ function charts(sample) {
         var bargraphdata = [
             {
                 y: yticks,
-                x: sample_values.slice(0, 10),
-                text: out_labels.slice(0, 10),
+                x: sample_values.slice(0, 10).reverse(),
+                text: out_labels.slice(0, 10).reverse(),
                 type: "bar",
                 orientation: "h"
             }
