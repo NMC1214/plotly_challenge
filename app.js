@@ -55,7 +55,7 @@ function charts(sample) {
         console.log(firstid);
 
         var bubblelayout = {
-            title: "Bateria Cultures Per Sample",
+            title: "Bacteria Cultures Per Sample",
             hovermode: "closest",
             xaxis: {title: "OTU ID" }
         };
