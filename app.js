@@ -7,7 +7,7 @@ function demobox(sample) {
     d3.json("samples.json").then(function (data) {
         console.log(data.names);
         names = data.names;
-        metadata = data.metadata[0];
+        metadata = data.metadata;
         samples = data.samples;
 
         var dropdownMenu = d3.select("#selDataset");
@@ -32,12 +32,12 @@ function charts(sample) {
         var samplesdata = data.samples;
         console.log(samplesdata);
 
-        var samplearray = samplesdata.filter(element => element.id == sample)
-        var firstid = samplearray[0]
+        var samplearray = samplesdata.filter(element => element.id == sample);
+        var firstid = samplearray[0];
 
         var otu_ids = firstid.otu_ids;
         var out_labels = firstid.otu_labels;
-        var sample_values = result.sample_values;
+        var sample_values = firstid.sample_values;
 
         var yticks = otu_ids.slice(0, 10).map(otuID => 'OTU ${otuID}')
         var bargraphdata = [
@@ -73,7 +73,7 @@ function charts(sample) {
                     }
                 }
             ];
-            Plotly.newPlot("bubble", bubbledata, bubblelayout);
+        Plotly.newPlot("bubble", bubbledata, bubblelayout);
         })
 }
 
