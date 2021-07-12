@@ -1,12 +1,8 @@
 function demobox(sample) {
-    var names;
-    var metadata;
-    var samples;
-
     // Fetch the JSON data and console log it
     d3.json("samples.json").then(data => {
         var metadata = data.metadata;
-        var metaarray = sample.filter(metaElement => metaElement.id = sample)
+        var metaarray = metadata.filter(metaElement => metaElement.id == sample)
 
         var demoresult = metaarray[0]
 
@@ -14,7 +10,7 @@ function demobox(sample) {
         boxinfo.html("");
 
         Object.entries(demoresult).forEach(([key, value]) => {
-            // console.log(key, metadata[key]);
+            console.log(key, value);
             boxinfo.append("h6").text(`${key}: ${value}`);
         });
 
@@ -78,8 +74,6 @@ function init() {
 
     var dropdown = d3.select("#selDataset");
 
-    var boxinfo = d3.select('#sample-metadata');
-
     d3.json("samples.json").then(data => {
         var sampleids = data.names;
         sampleids.forEach(sample => {
@@ -87,13 +81,8 @@ function init() {
         })
 
         var firstone = sampleids[0]
-        
-        Object.keys(metadata).forEach(key => {
-            console.log(key, metadata[key]);
-            boxinfo.append("h6").text(`${key}: ${metadata[key]}`);
-        });
 
-        demobox(firstone);
+        demobox(demoresult);
         charts(firstone);
     })
 
