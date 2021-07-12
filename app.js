@@ -4,21 +4,18 @@ function demobox(sample) {
     var samples;
 
     // Fetch the JSON data and console log it
-    d3.json("samples.json").then(function (data) {
-        console.log(data.names);
-        names = data.names;
-        metadata = data.metadata;
-        samples = data.samples;
+    d3.json("samples.json").then(data => {
+        var metadata = data.metadata;
+        var metaarray = sample.filter(metaElement => metaElement.id = sample)
 
-        var dropdownMenu = d3.select("#selDataset");
-
-        names.forEach(element => dropdownMenu.append("option").text(element).property("value", element));
+        var demoresult = metaarray[0]
 
         var boxinfo = d3.select('#sample-metadata');
+        boxinfo.html("");
 
-        Object.keys(metadata).forEach(key => {
-            console.log(key, metadata[key]);
-            boxinfo.append("h6").text(`${key}: ${metadata[key]}`);
+        Object.entries(demoresult).forEach(([key, value]) => {
+            // console.log(key, metadata[key]);
+            boxinfo.append("h6").text(`${key}: ${value}`);
         });
 
 
@@ -26,25 +23,25 @@ function demobox(sample) {
 }
 
 function charts(sample) {
-    console.log(sample)
+    // console.log(sample)
     d3.json("samples.json").then(data => {
 
         var samplesdata = data.samples;
-        console.log(samplesdata);
+        // console.log(samplesdata);
 
-        var samplearray = samplesdata.filter(element => element.id == sample);
-        var firstid = samplearray[0];
+        var samplearray = samplesdata.filter(element => element.id == sample)
+        var firstid = samplearray[0]
 
         var otu_ids = firstid.otu_ids;
-        var out_labels = firstid.otu_labels;
+        var otu_labels = firstid.otu_labels;
         var sample_values = firstid.sample_values;
 
-        var yticks = otu_ids.slice(0, 10).map(otuID => 'OTU ${otuID}')
+        var yticks = otu_ids.slice(0, 10).map(otuID => `OTU ${otuID}`).reverse()
         var bargraphdata = [
             {
                 y: yticks,
                 x: sample_values.slice(0, 10).reverse(),
-                text: out_labels.slice(0, 10).reverse(),
+                text: otu_labels.slice(0, 10).reverse(),
                 type: "bar",
                 orientation: "h"
             }
@@ -52,7 +49,7 @@ function charts(sample) {
 
         Plotly.newPlot("bar", bargraphdata)
 
-        console.log(firstid);
+        // console.log(firstid);
 
         var bubblelayout = {
             title: "Bacteria Cultures Per Sample",
@@ -64,7 +61,7 @@ function charts(sample) {
                 {
                     x: otu_ids,
                     y: sample_values,
-                    text: out_labels,
+                    text: otu_labels,
                     mode: "markers",
                     marker: {
                         size: sample_values,
@@ -81,6 +78,8 @@ function init() {
 
     var dropdown = d3.select("#selDataset");
 
+    var boxinfo = d3.select('#sample-metadata');
+
     d3.json("samples.json").then(data => {
         var sampleids = data.names;
         sampleids.forEach(sample => {
@@ -89,17 +88,17 @@ function init() {
 
         var firstone = sampleids[0]
         
-        var boxinfo = d3.select('#sample-metadata');
-
         Object.keys(metadata).forEach(key => {
             console.log(key, metadata[key]);
             boxinfo.append("h6").text(`${key}: ${metadata[key]}`);
         });
+
+        demobox(firstone);
+        charts(firstone);
     })
 
 
-    demobox(firstone);
-    charts(firstone);
+
 }
 
 function optionChanged(newsample) {
